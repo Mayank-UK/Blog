@@ -16,6 +16,7 @@ services:
         depends_on:
             - php
             - mysql
+
     php:
         build: ./php
         image: php_blog
@@ -25,6 +26,12 @@ services:
             - backend
         volumes:
             - ./../:/var/www/html
+        #this keeps the container running and prevent exit code 0 using tail
+        #">" just denotes that command will be multiline
+        #command: >
+        #    sh -c "composer install --ignore-platform-reqs &&
+        #    tail -f /dev/null"
+
     mysql:
         build: ./mysql
         image: mysql_blog
@@ -38,6 +45,7 @@ services:
             - backend
         volumes:
             - ./database:/var/lib/mysql
+            - ./../db_schema:/usr/local/mysql/
 
 networks:
     backend:
