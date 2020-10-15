@@ -1,10 +1,10 @@
 version: '3.7'
 
 services:
-    apache:
-        build: ./apache
-        image: apache_blog
-        container_name: apache_blog
+    nginx:
+        build: ./nginx
+        image: nginx_blog
+        container_name: nginx_blog
         restart: unless-stopped
         ports:
             - 80:80
@@ -12,7 +12,7 @@ services:
             - frontend
             - backend
         volumes:
-            - ./../:/usr/local/apache2/htdocs
+            - ./../:/usr/share/nginx/html
         depends_on:
             - php
             - mysql
@@ -25,7 +25,7 @@ services:
         networks:
             - backend
         volumes:
-            - ./../:/var/www/html
+            - ./../:/usr/share/nginx/html
         #this keeps the container running and prevent exit code 0 using tail
         #">" just denotes that command will be multiline
         #command: >
@@ -48,5 +48,5 @@ services:
             - ./../db_schema:/usr/local/mysql/
 
 networks:
-    backend:
     frontend:
+    backend:
